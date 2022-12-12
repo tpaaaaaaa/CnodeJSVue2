@@ -9,7 +9,14 @@
                     <input type="text" name="q" id="q" class="search-query span3">
                 </form>
             </div>
-            <div class="nav">导航页</div>
+            <ul class="nav">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">新手入门</a></li>
+                <li><a href="#">API</a></li>
+                <li><a href="#">关于</a></li>
+                <li><a href="#">注册</a></li>
+                <li><a href="#">登录</a></li>
+            </ul>
         </div>
     </div>
 </template>
@@ -27,11 +34,13 @@ export default {
 
     .navbar-inner {
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
         margin: 0 2vw;
         height: 5rem;
 
+        // logo
         .brand {
             width: 16rem;
             height: 4rem;
@@ -39,11 +48,50 @@ export default {
 
         }
 
+        // 搜索
         .navbar-search {
             // 搜索框靠左对齐
             margin-right: auto;
+            width: 23rem;
 
-            .search-query {}
+
+            .search-query {
+                border: 0;
+                width: 100%;
+                height: 2.6rem;
+                padding: 3px 5px 3px 24px;
+                border-radius: 10px;
+                background: #888 url('https://static2.cnodejs.org/public/images/search.e53b380a.hashed.png') 4px 4px no-repeat;
+                transition: all 0.5s;
+
+                &:focus {
+                    outline: 0;
+                }
+
+                &:hover,
+                &:focus {
+                    background-color: #fff;
+                }
+
+
+            }
+        }
+
+        // 导航
+        .nav {
+            display: flex;
+
+            li {
+                a {
+                    text-shadow: none;
+                    color: #ccc;
+                    padding: 1rem 1.5rem;
+
+                    &:hover {
+                        color: #fff;
+                    }
+                }
+            }
         }
 
     }
