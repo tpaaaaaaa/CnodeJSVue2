@@ -20,6 +20,11 @@ export default {
 </script>
 
 <style>
+body {
+  background-color: blanchedalmond;
+  font-size: 14px;
+}
+
 html {
   font-size: 62.5%;
 }
