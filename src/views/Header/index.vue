@@ -38,7 +38,8 @@ export default {
         align-items: center;
         justify-content: space-between;
         margin: 0 2vw;
-        height: 5rem;
+        // height: 5rem;
+        padding: 0.5rem 1rem;
 
         // logo
         .brand {
@@ -80,6 +81,7 @@ export default {
         // 导航
         .nav {
             display: flex;
+            padding: 1rem;
 
             li {
                 a {

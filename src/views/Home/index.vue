@@ -3,69 +3,90 @@
         <div class="main">
 
             <div class="content">
-                <div class="content">
-                    <div class="panel">
-                        <!-- 主题 -->
-                        <div class="header">
-                            <a href="" class="topic-tab current-tab">全部</a>
-                            <a href="" class="topic-tab">精华</a>
-                            <a href="" class="topic-tab">分享</a>
-                            <a href="" class="topic-tab">问答</a>
-                            <a href="" class="topic-tab">招聘</a>
-                            <a href="" class="topic-tab">客户端测试</a>
-                        </div>
-                        <!-- 帖子 -->
-                        <div class="inner">
-                            <div class="topic_list">
-                                <div class="cell">
-                                    <!-- 头像 -->
-                                    <a href="#" class="user_avatar">
-                                        <img
-                                             src="https://avatars.githubusercontent.com/u/227713?v=4&s=120"
-                                             alt="用户头像">
-                                    </a>
-                                    <!-- 回复 -->
-                                    <span class="reply_count">
-                                        <span class="count_of_replies" title="回复数">1</span>
-                                        <span class="count_seperator">/</span>
-                                        <span class="count_of_visits" title="点击数">55</span>
-                                    </span>
+                <div class="panel">
+                    <!-- 主题 -->
+                    <div class="header" @click.prevent="switchTab($event)">
+                        <router-link to="/home?tab=all" class="topic-tab "
+                                     :class="{ 'current-tab': reqTopicInfo.tab === 'all' }">
+                            全部
+                        </router-link>
+                        <router-link to="/home?tab=good" class="topic-tab "
+                                     :class="{ 'current-tab': reqTopicInfo.tab === 'good' }">
+                            精华
+                        </router-link>
+                        <router-link to="/home?tab=share" class="topic-tab "
+                                     :class="{ 'current-tab': reqTopicInfo.tab === 'share' }">
+                            分享
+                        </router-link>
+                        <router-link to="/home?tab=ask" class="topic-tab "
+                                     :class="{ 'current-tab': reqTopicInfo.tab === 'ask' }">
+                            问答
+                        </router-link>
+                        <router-link to="/home?tab=job" class="topic-tab "
+                                     :class="{ 'current-tab': reqTopicInfo.tab === 'job' }">
+                            招聘
+                        </router-link>
+                        <router-link to="/home?tab=dev" class="topic-tab "
+                                     :class="{ 'current-tab': reqTopicInfo.tab === 'dev' }">
+                            客户端测试
+                        </router-link>
+                    </div>
+                    <!-- 帖子 -->
+                    <div class="inner">
+                        <div class="topic_list" @click.prevent="goTopicDetail">
+                            <div class="cell" v-for="topic of topics" :key="topic.id">
+                                <!-- 头像 -->
+                                <a href="#" class="user_avatar">
+                                    <img
+                                         :src="topic.author.avatar_url"
+                                         :title="topic.author.loginname">
+                                </a>
+                                <!-- 回复 -->
+                                <span class="reply_count">
+                                    <span class="count_of_replies" title="回复数">{{ topic.reply_count }}</span>
+                                    <span class="count_seperator">/</span>
+                                    <span class="count_of_visits" title="点击数">{{ topic.visit_count }}</span>
+                                </span>
 
-                                    <!-- 标题内容 -->
-                                    <div class="topic_title_wrapper">
-                                        <span class="put_top">置顶</span>
-                                        <a href="#" class="topic_title" title="标题内容">
-                                            标题内容标题内容标题内容标题内容标题内容标题内容标lh3rem内容标题内容标lh3rem内容标题内容标lh3rem内容标题内容标lh3rem
-                                        </a>
-                                    </div>
-                                    <!-- 最后回复时间 -->
-                                    <a href="#" class="last_time">
-                                        <img src="https://avatars.githubusercontent.com/u/68574208?v=4&s=120" alt=""
-                                             class="user_small_avatar">
-                                        <span class="last_active_time">13天前</span>
+                                <!-- 标题内容 -->
+                                <div class="topic_title_wrapper">
+                                    <span
+                                          :class="{ 'put_top': topic.top, 'topiclist-tab': !topic.top, 'category_tab': 1 }">
+                                        {{ topic.top ? '置顶' : topic.tab }}
+                                    </span>
+                                    <a href="#" class="topic_title" :title="topic.title" :data-id="topic.id">
+                                        {{ topic.title }}
                                     </a>
                                 </div>
+                                <!-- 最后回复时间 -->
+                                <a href="#" class="last_time">
+                                    <img src="https://avatars.githubusercontent.com/u/68574208?v=4&s=120" alt=""
+                                         class="user_small_avatar">
+                                    <span class="last_active_time">
+                                        {{ distanceLastTime(topic.last_reply_at) }}前
+                                    </span>
+                                </a>
                             </div>
+                        </div>
 
-                            <div class="pagination">
-                                <ul>
-                                    <li><a href="#" class="prev_page"> &lt;&lt;</a> </li>
-                                    <li><a href="#" class="active">1</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#" class="next_page">&gt;&gt;</a></li>
-                                </ul>
-                            </div>
-
+                        <div class="pagination">
+                            <ul>
+                                <li><a href="#" class="prev_page"> &lt;&lt;</a> </li>
+                                <li><a href="#" class="active">1</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#" class="next_page">&gt;&gt;</a></li>
+                            </ul>
                         </div>
 
                     </div>
+
                 </div>
             </div>
             <!-- 侧边栏 -->
-            <div class="sidebar">侧边栏</div>
+            <SideBar></SideBar>
 
         </div>
         <div class="backtotop"><span>回到顶部</span></div>
@@ -73,8 +94,80 @@
 </template>
 
 <script>
+import SideBar from './SideBar';
+import { mapState } from 'vuex';
 export default {
     name: 'CnodeHome',
+    components: { SideBar },
+    computed: {
+        ...mapState(['topics']),
+
+    },
+    data() {
+        return {
+            reqTopicInfo: {
+                page: 1,
+                tab: 'all',
+                limit: 10
+            }
+        };
+    },
+    mounted() {
+        this.getData();
+    },
+    methods: {
+        /**
+         * 获取数据
+         */
+        getData() {
+            this.$store.dispatch('getTopices', { ...this.reqTopicInfo });
+        },
+
+        /**
+         * 切换Tab类别
+         * @param {Object} e -监听元素
+         */
+        switchTab(e) {
+            if (!e.target.closest('a')) return;
+            this.reqTopicInfo.tab = this.$route.query.tab;
+            this.getData();
+        },
+
+        /**
+         * 进入主题贴
+         */
+        goTopicDetail(e) {
+            if (!e.target.dataset.id) return;
+            this.$router.push({ name: 'topic', params: { id: e.target.dataset.id } });
+        },
+
+        /**
+         * 用来计算返回日期距离当前的天数
+         * @param { Number } lastTime - 返回时间戳
+         */
+        // distanceLastTime(lastTime) {
+        //     const nowDate = new Date();
+        //     // 当前月天数
+        //     const distanceDayOfMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0).getDate();
+
+        //     const minutes = (nowDate.getTime() - new Date(lastTime).getTime()) / 1000 / 60;
+        //     // 返回小时
+        //     const hours = minutes / 60;
+        //     if (hours <= 24) return `${~~hours}小时`;
+
+        //     // 返回天数
+        //     const days = hours / 24;
+        //     if (days <= distanceDayOfMonth) return `${~~days}天`;
+
+        //     // 返回月份
+        //     const month = (days / distanceDayOfMonth);
+        //     if (month <= 12) return `${~~month}个月`;
+
+        //     // 返回年份
+        //     const year = (month / 12);
+        //     return `${~~year}年`;
+        // }
+    }
 };
 </script>
 
@@ -87,16 +180,19 @@ export default {
 
     // 侧边栏
     .sidebar {
-        width: 25vw;
+        width: 35vw;
         margin-left: 1rem;
     }
 
     // 内容
     .content {
         flex: 1;
-        max-width: 72vw;
+        max-width: 62vw;
 
         .panel {
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.1);
 
             // 内容标题
             .header {
@@ -110,6 +206,10 @@ export default {
                 .topic-tab {
                     color: #80bd01;
 
+                    &:hover {
+                        color: #000;
+                    }
+
                     // 当前选中标题
                     &.current-tab {
                         padding: 3px 4px;
@@ -118,7 +218,6 @@ export default {
                         color: #fff;
                     }
                 }
-
             }
 
             // 内容
@@ -134,10 +233,10 @@ export default {
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
-                        gap: 1rem;
-                        padding: 5px;
+                        gap: 0.5rem;
+                        padding: 0.5rem 1rem;
                         border-bottom: 1px solid rgba(128, 128, 128, 0.2);
-                        max-width: 100%;
+                        width: 100%;
                         white-space: nowrap;
 
                         &:hover {
@@ -156,6 +255,9 @@ export default {
 
                         // 回复数
                         .reply_count {
+                            width: 7rem;
+                            text-align: center;
+
                             .count_of_replies {
                                 color: #9e78c0;
                             }
@@ -172,25 +274,34 @@ export default {
 
                         // 回复时间
                         .last_time {
+                            display: flex;
+                            gap: 1rem;
+                            min-width: 8rem;
                             font-size: 1.1rem;
 
                             // 回复用户头像
                             .user_small_avatar {
-                                margin-right: 1rem;
                                 width: 1.8rem;
                                 height: 1.8rem;
                                 border-radius: 3px;
                                 vertical-align: middle;
                             }
 
-                            .last_active_time {}
+                            .last_active_time {
+                                margin-left: auto;
+                            }
 
                         }
 
                         // 标题内容
                         .topic_title_wrapper {
                             margin-right: auto;
-                            max-width: 75%;
+                            // 让该元素不超出flex父元素的两个方式
+                            // width: 0;
+                            overflow: hidden;
+                            flex: 1;
+
+
 
                             // 置顶
                             .put_top {
@@ -201,15 +312,28 @@ export default {
                                 font-size: 1.2rem;
                             }
 
+                            .topiclist-tab {
+                                background-color: #e5e5e5;
+                                border-radius: 3px;
+                                padding: 2px 4px;
+                                color: #999;
+                                font-size: 1.2rem;
+                            }
+
+                            .category_tab {
+                                margin-right: 4px;
+                            }
+
                             // 标题
                             .topic_title {
-                                vertical-align: middle;
-                                max-width: 95%;
                                 display: inline-block;
-                                white-space: nowrap;
+                                width: 90%;
                                 overflow: hidden;
+                                white-space: nowrap;
                                 text-overflow: ellipsis;
+                                vertical-align: middle;
                                 color: #333;
+
 
                                 &:hover {
                                     text-decoration: underline;

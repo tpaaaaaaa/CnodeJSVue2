@@ -2,26 +2,26 @@
   <div id="app">
 
     <Header></Header>
-    <Home></Home>
+    <router-view></router-view>
+    <!-- <Home></Home> -->
     <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Header from '@/views/Header';
-import Home from '@/views/Home';
 import Footer from '@/views/Footer';
 export default {
   name: 'App',
   components: {
-    Header, Footer, Home
+    Header, Footer
   }
 };
 </script>
 
 <style>
 body {
-  background-color: blanchedalmond;
+  background-color: #fff;
   font-size: 14px;
 }
 
