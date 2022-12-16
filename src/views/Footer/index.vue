@@ -36,6 +36,7 @@ export default {
 .footer {
     background-color: #fff;
     color: #e2e2e2;
+    box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 10%);
 
     .footer_main {
         padding: 2rem;

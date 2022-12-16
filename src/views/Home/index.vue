@@ -47,7 +47,6 @@
                                     <span class="count_seperator">/</span>
                                     <span class="count_of_visits" title="点击数">{{ topic.visit_count }}</span>
                                 </span>
-
                                 <!-- 标题内容 -->
                                 <div class="topic_title_wrapper">
                                     <span
@@ -86,7 +85,53 @@
                 </div>
             </div>
             <!-- 侧边栏 -->
-            <SideBar></SideBar>
+            <div class="sidebar">
+                <Aside>
+                    <template #header>
+                        CNode：Node.js专业中文社区
+                    </template>
+                    <template #inner>
+                        您可以<a href="#">登录</a>或<a href="#">注册</a>，也可以
+                        <a href="#"><span class="span-info">通过GitHub登录</span></a>
+                    </template>
+                </Aside>
+
+                <Aside>
+                    <template #header>
+                        无人回复话题
+                    </template>
+                    <template #inner>
+                        <ul class="unstyled">
+                            <li>
+                                <div><a href="#" class="topic_title">标题</a></div>
+                            </li>
+                            <li>
+                                <div><a href="#" class="topic_title">标题</a></div>
+                            </li>
+                        </ul>
+                    </template>
+                </Aside>
+
+                <Aside>
+                    <template #header>
+                        友情社区
+                    </template>
+                    <template #inner>
+                        <ol class="friendship-community">
+                            <li><a href="https://ruby-china.org/">
+                                    <img src="https://static2.cnodejs.org/public/images/ruby-china-20150529.png"
+                                         alt=""></a>
+                            </li>
+                            <li><a href="http://golangtc.com/"><img
+                                         src="https://static2.cnodejs.org/public/images/golangtc-logo.png" alt=""></a>
+                            </li>
+                            <li><a href="http://phphub.org/"><img
+                                         src="https://static2.cnodejs.org/public/images/phphub-logo.png" alt=""></a>
+                            </li>
+                        </ol>
+                    </template>
+                </Aside>
+            </div>
 
         </div>
         <div class="backtotop"><span>回到顶部</span></div>
@@ -94,11 +139,12 @@
 </template>
 
 <script>
-import SideBar from './SideBar';
+import Aside from '@/components/Aside';
+// import SideBar from './SideBar';
 import { mapState } from 'vuex';
 export default {
     name: 'CnodeHome',
-    components: { SideBar },
+    components: { Aside },
     computed: {
         ...mapState(['topics']),
 
@@ -140,33 +186,6 @@ export default {
             if (!e.target.dataset.id) return;
             this.$router.push({ name: 'topic', params: { id: e.target.dataset.id } });
         },
-
-        /**
-         * 用来计算返回日期距离当前的天数
-         * @param { Number } lastTime - 返回时间戳
-         */
-        // distanceLastTime(lastTime) {
-        //     const nowDate = new Date();
-        //     // 当前月天数
-        //     const distanceDayOfMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0).getDate();
-
-        //     const minutes = (nowDate.getTime() - new Date(lastTime).getTime()) / 1000 / 60;
-        //     // 返回小时
-        //     const hours = minutes / 60;
-        //     if (hours <= 24) return `${~~hours}小时`;
-
-        //     // 返回天数
-        //     const days = hours / 24;
-        //     if (days <= distanceDayOfMonth) return `${~~days}天`;
-
-        //     // 返回月份
-        //     const month = (days / distanceDayOfMonth);
-        //     if (month <= 12) return `${~~month}个月`;
-
-        //     // 返回年份
-        //     const year = (month / 12);
-        //     return `${~~year}年`;
-        // }
     }
 };
 </script>
@@ -178,21 +197,16 @@ export default {
     // width: 90vw;
     margin: 1rem;
 
-    // 侧边栏
-    .sidebar {
-        width: 35vw;
-        margin-left: 1rem;
-    }
-
     // 内容
     .content {
         flex: 1;
         max-width: 62vw;
+        box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 10%);
 
         .panel {
             border-radius: 3px;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 1px 12px 0 rgba(0, 0, 0, 0.1);
+
 
             // 内容标题
             .header {
@@ -383,6 +397,28 @@ export default {
             }
         }
     }
+
+    // 侧边栏
+    .sidebar {
+        width: 35vw;
+        max-width: 30rem;
+        min-width: 25rem;
+        margin-left: 1rem;
+
+
+        .friendship-community {
+            list-style: none;
+
+            li {
+                a {
+                    img {
+                        width: 15rem;
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 // 返回顶部按钮

@@ -2,7 +2,10 @@
   <div id="app">
 
     <Header></Header>
-    <router-view></router-view>
+    <keep-alive>
+
+      <router-view></router-view>
+    </keep-alive>
     <!-- <Home></Home> -->
     <Footer></Footer>
   </div>
@@ -16,6 +19,7 @@ export default {
   components: {
     Header, Footer
   }
+
 };
 </script>
 

@@ -6,3 +6,6 @@ export const getTopics = (topicInfo) =>
 	axios.get(`${BASEURL}/topics`, { params: { ...topicInfo } });
 
 export const getTopicById = (id) => axios.get(`${BASEURL}/topic/${id}`);
+
+export const getUserByName = (loginname) =>
+	axios.get(`${BASEURL}/user/${loginname}`);
