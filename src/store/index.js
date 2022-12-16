@@ -26,10 +26,23 @@ const getLocalStorage = (newReqParams, reqParamsName, dataName) => {
 };
 
 const store = new Vuex.Store({
+	/**
+	 * state
+	 * @param {Array} topics		-话题列表
+	 * @param {Object} topicDetail	-话题详情
+	 * @param {Object} userInfo		-用户详情
+	 */
 	state: {
 		topics: [],
 		topicDetail: {},
 		userInfo: {},
+		translaTabs: {
+			top: '置顶',
+			share: '分享',
+			ask: '问答',
+			job: '招聘',
+			dev: '客户端',
+		},
 	},
 	actions: {
 		// 获取分类主题帖
@@ -45,15 +58,16 @@ const store = new Vuex.Store({
 				if (result.status !== 200) return new Error('获取主题失败');
 				localStorage.setItem('getTopicsParams', JSON.stringify(topicInfo));
 				if (topicInfo.page !== 1) {
-					// console.log('追加数据');
+					// 对已有当前数据进行追加
 					const newData = JSON.parse(localStorage.getItem('getTopics'));
-					// console.log('当前数据', newData);
+					// newData.data.forEach((el, i) => {
+					// 	if (el.id === result.data?.data[i]) console.log('重复');
+					// });
 					newData.data?.push(...result.data.data);
 					localStorage.setItem('getTopics', JSON.stringify(newData));
 					sameRequest = newData;
-					// console.log('赋值结束后', newData, result, sameRequest);
 				} else {
-					// console.log('全部覆盖');
+					// 对原存储数据覆盖
 					localStorage.setItem('getTopics', JSON.stringify(result.data));
 					sameRequest = result.data;
 				}

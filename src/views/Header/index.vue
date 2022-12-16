@@ -16,11 +16,12 @@
                     <li><router-link to="/home">首页</router-link> </li>
                     <li><a href="#">新手入门</a></li>
                     <li><a href="#">API</a></li>
-                    <li><router-link to="/testhome">测试</router-link></li>
+                    <li><router-link to="/testtopic/6262718079f90d94a6a0d2f5">测试</router-link></li>
                     <li><a href="#">注册</a></li>
                     <li><a href="#">登录</a></li>
                 </ul>
             </div>
+            <div class="empty"></div>
             <div class="backtotop" @click="goTop"><span>回到顶部</span></div>
         </div>
     </div>
@@ -126,10 +127,10 @@ export default {
     // 返回顶部按钮
     .backtotop {
         position: fixed;
+        z-index: 999;
         top: 85vh;
         right: 3vw;
         width: 4rem;
-        // height: auto;
         font-size: 1.4rem;
         text-align: center;
         background-color: #eee;

@@ -17,7 +17,9 @@ export default {
 
 <style lang="less" scoped>
 .panel {
+    margin-bottom: 1rem;
     border-radius: 3px;
+    box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 10%);
     border: 1px solid rgba(0, 0, 0, 0.1);
 
     // 内容标题
@@ -132,21 +134,19 @@ export default {
                     // 置顶
                     .put_top {
                         background-color: #80bd01;
-                        border-radius: 3px;
-                        padding: 2px 4px;
                         color: #fff;
-                        font-size: 1.2rem;
                     }
 
                     .topiclist-tab {
                         background-color: #e5e5e5;
-                        border-radius: 3px;
-                        padding: 2px 4px;
                         color: #999;
-                        font-size: 1.2rem;
                     }
 
                     .category_tab {
+                        width: 3.6rem;
+                        border-radius: 3px;
+                        padding: 2px 4px;
+                        font-size: 1.2rem;
                         margin-right: 4px;
                     }
 

@@ -41,7 +41,7 @@ export default {
     .content {
         flex: 1;
         width: 65vw;
-        box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 10%);
+        // box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 10%);
 
         .panel {
             border-radius: 3px;
@@ -54,9 +54,11 @@ export default {
         width: 35vw;
         max-width: 30rem;
         min-width: 25rem;
+        // position: fixed;
 
         .fixed {
-            position: fixed;
+            // position: fixed;
+            z-index: 0;
         }
     }
 }

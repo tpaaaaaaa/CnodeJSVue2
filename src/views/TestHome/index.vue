@@ -53,7 +53,7 @@
                                     <div class="topic_title_wrapper">
                                         <span
                                               :class="{ 'put_top': topic.top, 'topiclist-tab': !topic.top, 'category_tab': 1 }">
-                                            {{ topic.top ? '置顶' : topic.tab }}
+                                            {{ topic.top ? '置顶' : translaTabs[topic.tab] || '分享' }}
                                         </span>
                                         <a :href="`#/topic/${topic.id}`" class="topic_title" :title="topic.title"
                                            :data-id="topic.id">
@@ -158,7 +158,7 @@ export default {
     name: 'TestHome',
     components: { Panel, MainConponent, Aside, },
     computed: {
-        ...mapState(['topics']),
+        ...mapState(['topics', 'translaTabs']),
 
     },
     watch: {
@@ -256,9 +256,6 @@ export default {
     width: 62vw;
 
     .loading {
-        // position: absolute;
-        // position: fixed;
-        // left: 50vw;
         width: 3rem;
         animation-name: loading;
         animation-duration: 1.5s;

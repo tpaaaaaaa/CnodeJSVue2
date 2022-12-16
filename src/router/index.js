@@ -5,21 +5,27 @@ Vue.use(VueRouter);
 
 const routes = [
 	{
-		name: 'testhome',
-		path: '/testhome',
-		component: () => import('@/views/TestHome'),
+		name: 'topic',
+		path: '/topic/:id?',
+		component: () => import('@/views/TestTopic'),
+		props: true,
 	},
 	{
 		name: 'home',
 		path: '/home',
-		component: () => import('@/views/Home'),
+		component: () => import('@/views/TestHome'),
 	},
-	{
-		name: 'topic',
-		path: '/topic/:id?',
-		component: () => import('@/views/Topic'),
-		props: true,
-	},
+	// {
+	// 	name: 'home',
+	// 	path: '/home',
+	// 	component: () => import('@/views/Home'),
+	// },
+	// {
+	// 	name: 'topic',
+	// 	path: '/topic/:id?',
+	// 	component: () => import('@/views/Topic'),
+	// 	props: true,
+	// },
 	{
 		path: '/',
 		redirect: { name: 'home' },
