@@ -1,4 +1,5 @@
 <template>
+    <!-- 主要内容的框架 --插槽放入内容和侧边栏 -->
     <div ref="top">
         <div class="main">
             <div class="content">
@@ -60,6 +61,13 @@ export default {
             // position: fixed;
             z-index: 0;
         }
+    }
+}
+
+
+@media (max-width:900px) {
+    .sidebar {
+        display: none;
     }
 }
 </style>

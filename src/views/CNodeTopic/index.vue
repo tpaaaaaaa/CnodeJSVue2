@@ -1,6 +1,7 @@
+<!-- 话题详情 -->
 <template>
     <div>
-        <MainComponent>
+        <MainConponent>
             <template #contentPanel>
                 <Panel>
                     <template #panelHeader>
@@ -67,31 +68,10 @@
             </template>
             <template #sideBar>
                 <!-- 作者 -->
-                <Aside>
-                    <!-- v-slot缩写： #  -->
-                    <template #header>
-                        作者
-                    </template>
-                    <template #inner>
-                        <div class="user_card">
-                            <router-link class="user_avatar" :to="`/user/${userInfo.loginname}`">
-                                <img :src="userInfo.avatar_url" :alt="userInfo.loginname">
-                            </router-link>
 
-                            <span class="user_name">
-                                <router-link :to="`/user/${userInfo.loginname}`">{{ userInfo.loginname }}</router-link>
-                            </span>
-
-                            <div class="board" title="积分">积分：{{ userInfo.score }}
-                            </div>
-                            <span class="create_time">
-                                {{ distanceLastTime(userInfo.create_at) }}前创建
-                            </span>
-                        </div>
-                    </template>
-                </Aside>
+                <UserCard :userInfo="userInfo" />
                 <!-- 最近回复 -->
-                <Aside>
+                <CNodeAside>
                     <template #header>
                         最近回复
                     </template>
@@ -99,9 +79,9 @@
                         <OtherTopics @goTopic="goTopicById" :replies="userInfo.recent_replies">
                         </OtherTopics>
                     </template>
-                </Aside>
+                </CNodeAside>
                 <!-- 最近话题 -->
-                <Aside>
+                <CNodeAside>
                     <template #header>
                         最近话题
                     </template>
@@ -109,21 +89,20 @@
                         <OtherTopics @goTopic="goTopicById" :replies="userInfo.recent_topics?.slice(0, 5)">
                         </OtherTopics>
                     </template>
-                </Aside>
+                </CNodeAside>
             </template>
-        </MainComponent>
+        </MainConponent>
     </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import MainComponent from '@/components/CNodeMain';
 import Panel from '@/components/CNodePanel';
-import Aside from '@/components/CNodeAside';
 import OtherTopics from '@/components/CNodeOtherTopics';
+import UserCard from '@/components/CNodeUserCard';
 export default {
     name: 'CnodeTopicDetail',
-    components: { MainComponent, Panel, Aside, OtherTopics },
+    components: { Panel, OtherTopics, UserCard },
     props: ['id'],
     computed: {
         ...mapState(['topicDetail', 'userInfo'])

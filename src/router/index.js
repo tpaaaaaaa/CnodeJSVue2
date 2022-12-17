@@ -6,13 +6,13 @@ Vue.use(VueRouter);
 const routes = [
 	{
 		name: 'user',
-		path: '/user/:loginname?',
+		path: '/user/:loginname',
 		component: () => import('@/views/CNodeUser'),
 		props: true,
 	},
 	{
 		name: 'topic',
-		path: '/topic/:id?',
+		path: '/topic/:id',
 		component: () => import('@/views/CNodeTopic'),
 		props: true,
 	},
@@ -20,16 +20,22 @@ const routes = [
 		name: 'home',
 		path: '/home',
 		component: () => import('@/views/CNodeHome'),
+		meta: { showFooter: true },
 	},
 	{
 		path: '/',
 		redirect: { name: 'home' },
 		alias: '/home',
 	},
+	{
+		path: '*',
+		component: () => import('@/views/CNodeNFP'),
+	},
 ];
 
 const router = new VueRouter({
 	routes,
+	// 设置页面滚动位置
 	scrollBehavior(to, from, savedPositiom) {
 		if (savedPositiom) {
 			return savedPositiom;
@@ -37,10 +43,6 @@ const router = new VueRouter({
 			return { x: 0, y: 0 };
 		}
 	},
-});
-
-router.beforeEach((to, from, next) => {
-	next();
 });
 
 const { isNavigationFailure } = VueRouter;
@@ -60,6 +62,7 @@ const rePushOrReplace = async function (location, onResolve, onReject) {
 	}
 };
 
+// 重写push和replace抛出异常
 Object.getPrototypeOf(router).push = rePushOrReplace;
 Object.getPrototypeOf(router).replace = rePushOrReplace;
 

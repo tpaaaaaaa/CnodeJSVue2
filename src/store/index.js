@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as api from '@/api';
-api;
 
 Vue.use(Vuex);
 
@@ -31,6 +30,7 @@ const store = new Vuex.Store({
 	 * @param {Array} topics		-话题列表
 	 * @param {Object} topicDetail	-话题详情
 	 * @param {Object} userInfo		-用户详情
+	 * @param {Array} translaTabs	-tab对应的中文
 	 */
 	state: {
 		topics: [],
@@ -45,7 +45,12 @@ const store = new Vuex.Store({
 		},
 	},
 	actions: {
-		// 获取分类主题帖
+		/**
+		 * 获取分类主题帖
+		 * @param {object} context
+		 * @param {object} topicInfo
+		 * @returns
+		 */
 		async getTopices(context, topicInfo) {
 			let sameRequest = getLocalStorage(
 				topicInfo,
@@ -71,7 +76,12 @@ const store = new Vuex.Store({
 			}
 			context.commit('GETTOPICES', sameRequest);
 		},
-		// 根据id获取帖子的信息
+		/**
+		 * 根据id获取帖子的信息
+		 * @param {object} context
+		 * @param {string} id
+		 * @returns
+		 */
 		async getTopicById(context, id) {
 			// 判断当前id是否为上一次存储的id
 			let sameRequest = getLocalStorage({ id }, 'TopicDetailId', 'TopicDetail');
@@ -84,7 +94,12 @@ const store = new Vuex.Store({
 			}
 			context.commit('GETTOPICBYID', sameRequest.data);
 		},
-		// 获取用户信息
+		/**
+		 * 获取用户信息
+		 * @param {object} context
+		 * @param {string} loginname
+		 * @returns
+		 */
 		async getUserByName(context, loginname) {
 			const result = await api.getUserByName(loginname);
 			if (result.status !== 200) return;

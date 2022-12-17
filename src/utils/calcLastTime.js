@@ -12,8 +12,14 @@ export default function distanceLastTime(lastTime) {
 		0
 	).getDate();
 
-	const minutes =
-		(nowDate.getTime() - new Date(lastTime).getTime()) / 1000 / 60;
+	// 返回秒  --计算出给定时间跟当前时间的差（即毫秒），再除1000得到秒
+	const second = (nowDate.getTime() - new Date(lastTime).getTime()) / 1000;
+	if (second < 60) return `${~~second}秒`;
+
+	// 返回分钟
+	const minutes = second / 60;
+	if (minutes < 60) return `${~~minutes}分钟`;
+
 	// 返回小时
 	const hours = minutes / 60;
 	if (hours <= 24) return `${~~hours}小时`;

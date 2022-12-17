@@ -3,17 +3,15 @@
 
     <Header></Header>
     <keep-alive>
-
       <router-view></router-view>
     </keep-alive>
-    <!-- <Home></Home> -->
-    <Footer></Footer>
+    <Footer v-if="this.$route.meta.showFooter"></Footer>
   </div>
 </template>
 
 <script>
-import Header from '@/views/Header';
-import Footer from '@/views/Footer';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 export default {
   name: 'App',
   components: {
@@ -46,9 +44,5 @@ ul {
 a {
   color: black;
   text-decoration: none;
-}
-
-#app {
-  min-width: 85rem;
 }
 </style>

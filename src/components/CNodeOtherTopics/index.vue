@@ -1,4 +1,5 @@
 <template>
+    <!-- 只显示话题标题的列表 -->
     <ul class="unstyled" @click.prevent=goTopicById($event)>
         <li v-for="topic of replies" :key="topic.id">
             <div>

@@ -1,4 +1,5 @@
 <template>
+    <!-- 标签卡--使用插槽完成 -->
     <div class="panel">
         <div class="header">
             <span class="col_fade">
@@ -26,7 +27,8 @@ export default {
     display: flex;
     flex-direction: column;
     margin-bottom: 1.5rem;
-    box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 10%);
+    box-shadow: 0px -1px 6px 3px rgb(0 0 0 / 8%);
+    border: 1px solid rgb(0 0 0 / 10%);
     background-color: #fff;
     font-size: 13px;
 

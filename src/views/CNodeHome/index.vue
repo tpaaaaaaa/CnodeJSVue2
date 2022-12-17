@@ -1,4 +1,5 @@
 <template>
+    <!-- 主页 -->
     <div>
         <MainConponent>
             <template #contentPanel>
@@ -34,41 +35,8 @@
 
                     <template #panelInner>
                         <div class="inner">
-                            <div class="topic_list" @click.prevent="goTopicDetail">
-                                <div class="cell" v-for="topic of topics" :key="topic.id">
-                                    <!-- 头像 -->
-                                    <a href="#" class="user_avatar">
-                                        <img
-                                             :src="topic.author.avatar_url"
-                                             :title="topic.author.loginname">
-                                    </a>
-                                    <!-- 回复 -->
-                                    <span class="reply_count">
-                                        <span class="count_of_replies" title="回复数">{{ topic.reply_count }}</span>
-                                        <span class="count_seperator">/</span>
-                                        <span class="count_of_visits" title="点击数">{{ topic.visit_count }}</span>
-                                    </span>
-
-                                    <!-- 标题内容 -->
-                                    <div class="topic_title_wrapper">
-                                        <span
-                                              :class="{ 'put_top': topic.top, 'topiclist-tab': !topic.top, 'category_tab': 1 }">
-                                            {{ topic.top ? '置顶' : translaTabs[topic.tab] || '分享' }}
-                                        </span>
-                                        <a :href="`#/topic/${topic.id}`" class="topic_title" :title="topic.title"
-                                           :data-id="topic.id">
-                                            {{ topic.title }}
-                                        </a>
-                                    </div>
-                                    <!-- 最后回复时间 -->
-                                    <a href="#" class="last_time">
-                                        <img src="https://avatars.githubusercontent.com/u/68574208?v=4&s=120" alt=""
-                                             class="user_small_avatar">
-                                        <span class="last_active_time">
-                                            {{ distanceLastTime(topic.last_reply_at) }}前
-                                        </span>
-                                    </a>
-                                </div>
+                            <div class="topic_list" @click="goTopicDetail">
+                                <TopicCell :topics="topics" />
                             </div>
                         </div>
                     </template>
@@ -76,7 +44,7 @@
             </template>
 
             <template #sideBar>
-                <Aside>
+                <!-- <CNodeAside>
                     <template #header>
                         CNode：Node.js专业中文社区
                     </template>
@@ -86,52 +54,15 @@
                             <a href="#"><span class="span-info">通过 GitHub 登录</span></a>
                         </div>
                     </template>
-                </Aside>
+                </CNodeAside> -->
 
-                <Aside>
-                    <template #header>
-                        无人回复话题
-                    </template>
-                    <template #inner>
-                        <ul class="unstyled">
-                            <li>
-                                <div><a href="#" class="topic_title">标题</a></div>
-                            </li>
-                            <li>
-                                <div><a href="#" class="topic_title">标题</a></div>
-                            </li>
-                        </ul>
-                    </template>
-                </Aside>
-
-                <Aside>
-                    <template #header>
-                        友情社区
-                    </template>
-                    <template #inner>
-                        <ol class="friendship-community">
-                            <li><a href="https://ruby-china.org/">
-                                    <img src="https://static2.cnodejs.org/public/images/ruby-china-20150529.png"
-                                         alt=""></a>
-                            </li>
-                            <li><a href="http://golangtc.com/"><img
-                                         src="https://static2.cnodejs.org/public/images/golangtc-logo.png"
-                                         alt=""></a>
-                            </li>
-                            <li><a href="http://phphub.org/"><img
-                                         src="https://static2.cnodejs.org/public/images/phphub-logo.png" alt=""></a>
-                            </li>
-                        </ol>
-                    </template>
-                </Aside>
+                <CNodeAssets />
             </template>
         </MainConponent>
         <!-- 加载 -->
         <div class="bottom" ref="updateElement">
             <template>
                 <div v-show="loading">
-
-
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                          stroke="currentColor" class="w-6 h-6 loading">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -145,51 +76,64 @@
 </template>
 
 <script>
-import MainConponent from '@/components/CNodeMain';
+// 内容面板组件
 import Panel from '@/components/CNodePanel';
-import Aside from '@/components/CNodeAside';
-// import Pagination from '@/components/Pagination';
+// 单个话题组件
+import TopicCell from '@/components/CNodeTopicCell';
+// 静态组件
+import CNodeAssets from '@/components/CNodeAssets';
+
 import { mapState } from 'vuex';
 export default {
     name: 'CnodeHome',
-    components: { Panel, MainConponent, Aside, },
+    components: { Panel, TopicCell, CNodeAssets },
     computed: {
-        ...mapState(['topics', 'translaTabs']),
-
+        // 使用mapState辅助函数返回请求回来的数据
+        ...mapState(['topics']),
     },
     watch: {
+        // 监听返回的话题，并将加载状态设置为false
         topics() {
             this.loading = false;
         }
     },
     data() {
         return {
+            /**
+             * 
+             *  @param {Object} reqTopicInfo    --请求话题的信息
+             *  @param {Object} observe         --监听器
+             *  @param {string} loading         --加载状态
+             */
             reqTopicInfo: {
                 page: 1,
                 tab: 'all',
-                limit: 15
+                limit: 20
             },
             observe: null,
-            loading: ''
+            loading: false
         };
     },
     mounted() {
+        // 获取初始数据
         this.getData();
+        // 开启监听元素
         this.observeLoading(this.$refs.updateElement);
     },
     beforeDestroy() {
+        // 销毁监听对象
         this.observe().unobserve(this.$refs.updateElement);
         IntersectionObserver.disconnect();
     },
     methods: {
-        /**
-         * 获取数据
+        /** 获取数据
+         * 
          */
         getData() {
             this.$store.dispatch('getTopices', { ...this.reqTopicInfo });
         },
 
-        //监听加载
+        // 监听加载
         observeLoading(element) {
             this.observe = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
@@ -203,8 +147,8 @@ export default {
             this.observe.observe(element);
         },
 
-        /**
-         * 切换Tab类别
+        /** 切换Tab类别
+         * 
          * @param {Object} e -监听元素
          */
         switchTab(e) {
@@ -214,18 +158,14 @@ export default {
             this.getData();
         },
 
-        /**
-         * 进入主题贴
+        /** 进入主题贴
+         * 
          */
         goTopicDetail(e) {
             if (!e.target.dataset.id) return;
             this.$router.push({ name: 'topic', params: { id: e.target.dataset.id } });
         },
 
-        //分页
-        // changePage(...data) {
-        //     console.log(data);
-        // }
     }
 };
 </script>
@@ -281,20 +221,6 @@ export default {
             &:hover {
                 background-color: #2f96b4;
                 color: #fff;
-            }
-        }
-    }
-}
-
-.friendship-community {
-    list-style: none;
-
-    li {
-        margin-bottom: 1rem;
-
-        a {
-            img {
-                width: 15rem;
             }
         }
     }
