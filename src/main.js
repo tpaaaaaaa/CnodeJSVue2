@@ -6,6 +6,7 @@ import router from '@/router';
 // 引入markdown渲染
 import 'github-markdown-css';
 
+// 引入公共方法
 import distanceLastTime from '@/utils/calcLastTime';
 Vue.prototype.distanceLastTime = distanceLastTime;
 

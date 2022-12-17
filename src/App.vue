@@ -47,4 +47,8 @@ a {
   color: black;
   text-decoration: none;
 }
+
+#app {
+  min-width: 85rem;
+}
 </style>

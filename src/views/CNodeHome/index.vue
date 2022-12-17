@@ -5,27 +5,27 @@
                 <Panel>
                     <template #panelHeader>
                         <div class="header" @click.prevent="switchTab($event)">
-                            <router-link to="/testhome?tab=all" class="topic-tab "
+                            <router-link to="/home?tab=all" class="topic-tab "
                                          :class="{ 'current-tab': reqTopicInfo.tab === 'all' }">
                                 全部
                             </router-link>
-                            <router-link to="/testhome?tab=good" class="topic-tab "
+                            <router-link to="/home?tab=good" class="topic-tab "
                                          :class="{ 'current-tab': reqTopicInfo.tab === 'good' }">
                                 精华
                             </router-link>
-                            <router-link to="/testhome?tab=share" class="topic-tab "
+                            <router-link to="/home?tab=share" class="topic-tab "
                                          :class="{ 'current-tab': reqTopicInfo.tab === 'share' }">
                                 分享
                             </router-link>
-                            <router-link to="/testhome?tab=ask" class="topic-tab "
+                            <router-link to="/home?tab=ask" class="topic-tab "
                                          :class="{ 'current-tab': reqTopicInfo.tab === 'ask' }">
                                 问答
                             </router-link>
-                            <router-link to="/testhome?tab=job" class="topic-tab "
+                            <router-link to="/home?tab=job" class="topic-tab "
                                          :class="{ 'current-tab': reqTopicInfo.tab === 'job' }">
                                 招聘
                             </router-link>
-                            <router-link to="/testhome?tab=dev" class="topic-tab "
+                            <router-link to="/home?tab=dev" class="topic-tab "
                                          :class="{ 'current-tab': reqTopicInfo.tab === 'dev' }">
                                 客户端测试
                             </router-link>
@@ -70,10 +70,6 @@
                                     </a>
                                 </div>
                             </div>
-
-                            <!-- 分页器 -->
-                            <!-- <Pagination :pageInfo="{ index: reqTopicInfo.page, limit: reqTopicInfo.limit }"
-                                        @changePage="changePage"></Pagination> -->
                         </div>
                     </template>
                 </Panel>
@@ -151,11 +147,11 @@
 <script>
 import MainConponent from '@/components/CNodeMain';
 import Panel from '@/components/CNodePanel';
-import Aside from '@/components/Aside';
+import Aside from '@/components/CNodeAside';
 // import Pagination from '@/components/Pagination';
 import { mapState } from 'vuex';
 export default {
-    name: 'TestHome',
+    name: 'CnodeHome',
     components: { Panel, MainConponent, Aside, },
     computed: {
         ...mapState(['topics', 'translaTabs']),
@@ -163,7 +159,6 @@ export default {
     },
     watch: {
         topics() {
-            console.log('数据更新');
             this.loading = false;
         }
     },
@@ -180,8 +175,11 @@ export default {
     },
     mounted() {
         this.getData();
-
         this.observeLoading(this.$refs.updateElement);
+    },
+    beforeDestroy() {
+        this.observe().unobserve(this.$refs.updateElement);
+        IntersectionObserver.disconnect();
     },
     methods: {
         /**
@@ -211,10 +209,8 @@ export default {
          */
         switchTab(e) {
             if (!e.target.closest('a')) return;
-            console.log(this.$options.data());
             this.reqTopicInfo = this.$options.data().reqTopicInfo;
             this.reqTopicInfo.tab = this.$route.query.tab;
-
             this.getData();
         },
 
@@ -227,9 +223,9 @@ export default {
         },
 
         //分页
-        changePage(...data) {
-            console.log(data);
-        }
+        // changePage(...data) {
+        //     console.log(data);
+        // }
     }
 };
 </script>

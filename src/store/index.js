@@ -60,9 +60,6 @@ const store = new Vuex.Store({
 				if (topicInfo.page !== 1) {
 					// 对已有当前数据进行追加
 					const newData = JSON.parse(localStorage.getItem('getTopics'));
-					// newData.data.forEach((el, i) => {
-					// 	if (el.id === result.data?.data[i]) console.log('重复');
-					// });
 					newData.data?.push(...result.data.data);
 					localStorage.setItem('getTopics', JSON.stringify(newData));
 					sameRequest = newData;
@@ -73,11 +70,6 @@ const store = new Vuex.Store({
 				}
 			}
 			context.commit('GETTOPICES', sameRequest);
-
-			// ***/-----------------------------------*/**/ */
-			// const result = await api.getTopics({ ...topicInfo });
-			// if (result.status !== 200) return new Error('获取主题失败');
-			// context.commit('GETTOPICES', result.data);
 		},
 		// 根据id获取帖子的信息
 		async getTopicById(context, id) {
@@ -91,11 +83,6 @@ const store = new Vuex.Store({
 				sameRequest = result.data;
 			}
 			context.commit('GETTOPICBYID', sameRequest.data);
-
-			// ***/-----------------------------------*/**/ */
-			// const result = await api.getTopicById(id);
-			// if (result.status !== 200) return new Error('获取该ID帖子失败');
-			// context.commit('GETTOPICBYID', result.data.data);
 		},
 		// 获取用户信息
 		async getUserByName(context, loginname) {

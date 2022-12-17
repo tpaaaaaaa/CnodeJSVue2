@@ -12,7 +12,9 @@
                             <div class="changes">
                                 <span>发布于{{ distanceLastTime(topicDetail.create_at) }}前</span>
                                 <span>作者
-                                    <a href="#">{{ topicDetail.author?.loginname }}</a>
+                                    <router-link :to="`/user/${topicDetail.author?.loginname}`">{{
+                                            topicDetail.author?.loginname
+                                    }}</router-link>
                                 </span>
                                 <span>{{ topicDetail.visit_count }}浏览</span>
                                 <span>来自{{ topicDetail.tab }}</span>
@@ -36,15 +38,17 @@
                     </template>
                     <template #panelInner>
                         <div class="cell" v-for="(replie, index) of topicDetail.replies" :key="replie.id"
-                             @click.prevent="goAnchor($event)"
+                             @click="goAnchor($event)"
                              :id="'id' + replie.id">
                             <div class="author_content">
-                                <a href="#" class="user_avatar">
+                                <a :href="`#/user/${replie.author?.loginname}`" class="user_avatar">
                                     <img :src="replie.author.avatar_url" :alt="replie.author?.loginname">
                                 </a>
                                 <div class="user_info">
                                     {{ index + 1 }}楼
-                                    <a href="#" class="reply_author">{{ replie.author?.loginname }}</a>
+                                    <a :href="`#/user/${replie.author?.loginname}`" class="reply_author">{{
+                                            replie.author?.loginname
+                                    }}</a>
                                     <a :href="`/topic/${id}#id${replie.id}`" class="replytime" :data-id="replie.id">
                                         {{ distanceLastTime(replie.create_at) }}前</a>
                                 </div>
@@ -70,11 +74,12 @@
                     </template>
                     <template #inner>
                         <div class="user_card">
-                            <a class="user_avatar" href="#">
+                            <router-link class="user_avatar" :to="`/user/${userInfo.loginname}`">
                                 <img :src="userInfo.avatar_url" :alt="userInfo.loginname">
-                            </a>
+                            </router-link>
+
                             <span class="user_name">
-                                <a href="#">{{ userInfo.loginname }}</a>
+                                <router-link :to="`/user/${userInfo.loginname}`">{{ userInfo.loginname }}</router-link>
                             </span>
 
                             <div class="board" title="积分">积分：{{ userInfo.score }}
@@ -91,16 +96,8 @@
                         最近回复
                     </template>
                     <template #inner>
-                        <ul class="unstyled" @click.prevent=goTopicById($event)>
-                            <li v-for="topic of userInfo.recent_replies" :key="topic.id">
-                                <div>
-                                    <a :href="`#/topic/${topic.id}`" class="topic_title" :data-id="topic.id"
-                                       :title="topic.title">{{
-                                               topic.title
-                                       }}</a>
-                                </div>
-                            </li>
-                        </ul>
+                        <OtherTopics @goTopic="goTopicById" :replies="userInfo.recent_replies">
+                        </OtherTopics>
                     </template>
                 </Aside>
                 <!-- 最近话题 -->
@@ -109,16 +106,8 @@
                         最近话题
                     </template>
                     <template #inner>
-                        <ul class="unstyled" @click.prevent=goTopicById($event)>
-                            <li v-for="topic of userInfo.recent_topics?.slice(0, 5)" :key="topic.id">
-                                <div>
-                                    <a :href="`#/topic/${topic.id}`" class="topic_title" :data-id="topic.id"
-                                       :title="topic.title">{{
-                                               topic.title
-                                       }}</a>
-                                </div>
-                            </li>
-                        </ul>
+                        <OtherTopics @goTopic="goTopicById" :replies="userInfo.recent_topics?.slice(0, 5)">
+                        </OtherTopics>
                     </template>
                 </Aside>
             </template>
@@ -130,10 +119,11 @@
 import { mapState } from 'vuex';
 import MainComponent from '@/components/CNodeMain';
 import Panel from '@/components/CNodePanel';
-import Aside from '@/components/Aside';
+import Aside from '@/components/CNodeAside';
+import OtherTopics from '@/components/CNodeOtherTopics';
 export default {
     name: 'CnodeTopicDetail',
-    components: { MainComponent, Panel, Aside },
+    components: { MainComponent, Panel, Aside, OtherTopics },
     props: ['id'],
     computed: {
         ...mapState(['topicDetail', 'userInfo'])
